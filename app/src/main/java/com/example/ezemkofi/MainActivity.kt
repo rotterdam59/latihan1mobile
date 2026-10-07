@@ -41,8 +41,7 @@ class MainActivity : AppCompatActivity() {
             val password = etPassword.text.toString()
 
 
-            if(username.isEmpty() || password.isEmpty())
-            {
+            if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
 
@@ -53,15 +52,20 @@ class MainActivity : AppCompatActivity() {
                     "http://10.0.2.2:5000/api/auth",
                     username,
                     password
-                    )
-                if (response != null)
-                {
+                )
+                if (response != null) {
+
+                    val fullname = Con.getMe("http://10.0.2.2:5000/api/me", response)
+
+                    val usersession = getSharedPreferences("UserSession", MODE_PRIVATE)
+                    usersession.edit()
+                        .putString("USERNAME", username)
+                        .putString("fullName",fullname)
+                        .apply()
                     val Intent = Intent(this@MainActivity, HomeScreen::class.java)
                     startActivity(Intent)
 
-                }
-                else
-                {
+                } else {
                     Toast.makeText(this@MainActivity, "Login failed", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -82,83 +86,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
     }
-}//
-////package com.example.ezemkofi
-////
-////import android.content.Intent
-////import android.graphics.Paint
-////import android.os.Bundle
-////import android.widget.Button
-////import android.widget.EditText
-////import android.widget.TextView
-////import android.widget.Toast
-////import androidx.activity.enableEdgeToEdge
-////import androidx.appcompat.app.AppCompatActivity
-////import androidx.core.view.ViewCompat
-////import androidx.core.view.WindowInsetsCompat
-////import androidx.lifecycle.lifecycleScope
-////import com.example.ezemkofi.connection.Connection
-////import kotlinx.coroutines.launch
-////
-////class MainActivity : AppCompatActivity() {
-////
-////    private val connection = Connection()
-////
-////    override fun onCreate(savedInstanceState: Bundle?) {
-////        super.onCreate(savedInstanceState)
-////        enableEdgeToEdge()
-////        setContentView(R.layout.activity_main)
-////
-////        val usernameEditText = findViewById<EditText>(R.id.etUsername)
-////        val passwordEditText = findViewById<EditText>(R.id.editTextTextPassword)
-////        val loginButton = findViewById<Button>(R.id.buttonLogin)
-////        val registerTextView = findViewById<TextView>(R.id.tvRegister)
-////
-////        loginButton.setOnClickListener {
-////            val username = usernameEditText.text.toString()
-////            val password = passwordEditText.text.toString()
-////
-////            if (username.isEmpty() || password.isEmpty()) {
-////                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-////                return@setOnClickListener
-////            }
-////
-////            lifecycleScope.launch {
-////                // Port 5000 = HTTP. Port 5001 = HTTPS, jangan dipakai dari emulator.
-////                val token = connection.loginUser(
-////                    "http://10.0.2.2:5000/api/auth",
-////                    username,
-////                    password
-////                )
-////
-////                if (token != null) {
-////                    // Respons login = token teks biasa. Simpan, dipakai screen lain untuk panggil API.
-////                    val userSessionPreferences = getSharedPreferences("USER_SESSION", MODE_PRIVATE)
-////                    userSessionPreferences.edit()
-////                        .putString("TOKEN", token.trim())
-////                        .putString("USERNAME", username)
-////                        .apply()
-////
-////                    val homeScreenIntent = Intent(this@MainActivity, HomeScreen::class.java)
-////                    startActivity(homeScreenIntent)
-////                } else {
-////                    Toast.makeText(this@MainActivity, "Login failed", Toast.LENGTH_SHORT).show()
-////                }
-////            }
-////        }
-////
-////        registerTextView.paintFlags = registerTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-////
-////        registerTextView.setOnClickListener {
-////            val registerIntent = Intent(this, Register::class.java)
-////            startActivity(registerIntent)
-////        }
-////
-////        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-////            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-////            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-////            insets
-////        }
-////    }
-//}
+}
