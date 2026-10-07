@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.EzemKofi" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorOnBackground">@color/black</item>
+
+    </style>
+
+    <style name="Theme.EzemKofi" parent="Base.Theme.EzemKofi" />
+</resources>
